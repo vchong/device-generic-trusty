@@ -1,0 +1,3 @@
+/dev/trusty-ipc-dev0                 u:object_r:trusty_ipc_device:s0
+/vendor/bin/dhcpclient               u:object_r:dhcpclient_exec:s0
+/data/vendor/var/run(/.*)?           u:object_r:varrun_file:s0
