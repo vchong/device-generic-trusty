@@ -19,7 +19,10 @@
 # same as running under the Android emulator.
 
 PRODUCT_PACKAGES += \
+    adbd \
     android.hidl.allocator@1.0-service \
+    dhcpclient \
+    hwservicemanager \
     init \
     init_system \
     init_vendor \
@@ -30,17 +33,14 @@ PRODUCT_PACKAGES += \
     logcat \
     logd \
     logwrapper \
+    mdnsd \
+    reboot \
     servicemanager \
-    hwservicemanager \
-    vndservicemanager \
     sh \
     toolbox \
     toybox \
+    vndservicemanager \
     vold \
-    reboot \
-    adbd \
-    dhcpclient \
-    mdnsd \
 
 # SELinux packages are added as dependencies of the selinux_policy
 # phony package.
