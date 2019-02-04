@@ -77,3 +77,17 @@ PRODUCT_PACKAGES += \
     tipc-test \
     trusty-ut-ctrl \
 
+PRODUCT_BOOT_JARS := \
+    core-oj \
+    core-libart \
+    conscrypt \
+    okhttp \
+    bouncycastle \
+    apache-xml \
+    ext \
+    framework \
+    telephony-common \
+    voip-common \
+    ims-common \
+    android.test.base \
+
