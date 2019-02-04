@@ -19,8 +19,10 @@
 # same as running under the Android emulator.
 
 PRODUCT_PACKAGES += \
+    adb \
     adbd \
     android.hidl.allocator@1.0-service \
+    apexd \
     dhcpclient \
     hwservicemanager \
     init \
@@ -28,6 +30,9 @@ PRODUCT_PACKAGES += \
     init_vendor \
     init.environ.rc \
     init.rc \
+    libc.bootstrap \
+    libdl.bootstrap \
+    libm.bootstrap \
     linker \
     linker64 \
     logcat \
