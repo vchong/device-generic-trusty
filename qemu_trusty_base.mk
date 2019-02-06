@@ -42,6 +42,7 @@ PRODUCT_PACKAGES += \
     reboot \
     servicemanager \
     sh \
+    su \
     toolbox \
     toybox \
     vndservicemanager \
