@@ -15,3 +15,5 @@
 
 PRODUCT_MAKEFILES := \
     $(LOCAL_DIR)/qemu_trusty_arm64.mk
+
+COMMON_LUNCH_CHOICES := qemu_trusty_arm64-userdebug
