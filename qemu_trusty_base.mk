@@ -24,6 +24,7 @@ PRODUCT_PACKAGES += \
     apexd \
     com.android.runtime \
     dhcpclient \
+    gatekeeperd \
     hwservicemanager \
     init \
     init_system \
@@ -85,9 +86,13 @@ PRODUCT_COPY_FILES += \
 $(call inherit-product, system/core/trusty/trusty-base.mk)
 $(call inherit-product, system/core/trusty/trusty-storage.mk)
 
+# Test Utilities
 PRODUCT_PACKAGES += \
     tipc-test \
     trusty-ut-ctrl \
+    VtsHalGatekeeperV1_0TargetTest \
+    VtsHalKeymasterV3_0TargetTest \
+    VtsHalKeymasterV4_0TargetTest \
 
 PRODUCT_BOOT_JARS := \
     core-oj \
