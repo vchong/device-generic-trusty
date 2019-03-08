@@ -53,6 +53,17 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     selinux_policy \
 
+PRODUCT_HOST_PACKAGES += \
+    adb \
+    adbd \
+    e2fsdroid \
+    make_f2fs \
+    mdnsd \
+    mke2fs \
+    selinux_policy \
+    sload_f2fs \
+    toybox \
+
 PRODUCT_COPY_FILES += \
     system/core/rootdir/init.usb.rc:root/init.usb.rc \
     system/core/rootdir/init.usb.configfs.rc:root/init.usb.configfs.rc \
