@@ -19,7 +19,6 @@
 # same as running under the Android emulator.
 
 PRODUCT_PACKAGES += \
-    adb \
     adbd \
     android.hidl.allocator@1.0-service \
     apexd \
