@@ -1,3 +1,0 @@
-type trusty_ipc_device, dev_type;
-
-allow shell trusty_ipc_device:chr_file { open read write ioctl };
