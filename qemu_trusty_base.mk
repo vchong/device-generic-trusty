@@ -22,6 +22,7 @@ PRODUCT_PACKAGES += \
     adbd \
     android.hidl.allocator@1.0-service \
     apexd \
+    com.android.runtime \
     dhcpclient \
     hwservicemanager \
     init \
