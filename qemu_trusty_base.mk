@@ -21,6 +21,8 @@
 PRODUCT_PACKAGES += \
     adbd \
     android.hidl.allocator@1.0-service \
+    system_manifest.xml \
+    framework_manifest.xml \
     apexd \
     com.android.runtime \
     dhcpclient \
@@ -75,6 +77,7 @@ PRODUCT_COPY_FILES += \
     device/generic/qemu/fstab.ranchu:root/fstab.qemu_trusty \
     device/generic/trusty/init.qemu_trusty.rc:root/init.qemu_trusty.rc \
     device/generic/trusty/ueventd.qemu_trusty.rc:root/ueventd.qemu_trusty.rc \
+    device/generic/goldfish/compatibility_matrix.xml:vendor/compatibility_matrix.xml
 
 PRODUCT_COPY_FILES += \
     device/generic/goldfish/data/etc/config.ini:config.ini \
