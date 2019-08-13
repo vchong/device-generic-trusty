@@ -99,6 +99,7 @@ PRODUCT_PACKAGES += \
 PRODUCT_BOOT_JARS := \
     core-oj \
     core-libart \
+    core-icu4j \
     conscrypt \
     okhttp \
     bouncycastle \
