@@ -24,6 +24,7 @@ PRODUCT_PACKAGES += \
     system_manifest.xml \
     framework_manifest.xml \
     apexd \
+    com.android.art \
     com.android.i18n \
     com.android.runtime \
     dhcpclient \
