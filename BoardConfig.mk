@@ -59,6 +59,3 @@ BOARD_BUILD_SYSTEM_ROOT_IMAGE := true
 
 # Specify HALs
 DEVICE_MANIFEST_FILE := device/generic/trusty/manifest.xml
-
-# TODO(b/131162102): remove this after cleaning up accesses of sysprop
-BUILD_BROKEN_TREBLE_SYSPROP_NEVERALLOW := true
