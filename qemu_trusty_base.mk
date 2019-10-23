@@ -106,7 +106,7 @@ PRODUCT_BOOT_JARS := \
     bouncycastle \
     apache-xml \
     ext \
-    framework \
+    framework-minus-apex \
     telephony-common \
     voip-common \
     ims-common \
