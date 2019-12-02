@@ -52,6 +52,11 @@ PRODUCT_PACKAGES += \
     vndservicemanager \
     vold \
 
+# Ensure boringssl NIAP check won't reboot us
+PRODUCT_PACKAGES += \
+    com.android.conscrypt \
+    boringssl_self_test \
+
 # SELinux packages are added as dependencies of the selinux_policy
 # phony package.
 PRODUCT_PACKAGES += \
