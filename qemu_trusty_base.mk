@@ -35,6 +35,7 @@ PRODUCT_PACKAGES += \
     init.environ.rc \
     libc.bootstrap \
     libdl.bootstrap \
+    libdl_android.bootstrap \
     libm.bootstrap \
     linker \
     linker64 \
