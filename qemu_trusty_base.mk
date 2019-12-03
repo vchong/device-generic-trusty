@@ -19,7 +19,7 @@
 # same as running under the Android emulator.
 
 PRODUCT_PACKAGES += \
-    adbd \
+    com.android.adbd \
     android.hidl.allocator@1.0-service \
     system_manifest.xml \
     framework_manifest.xml \
