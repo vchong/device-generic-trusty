@@ -19,7 +19,7 @@
 # same as running under the Android emulator.
 
 PRODUCT_PACKAGES += \
-    adbd \
+    com.android.adbd \
     android.hidl.allocator@1.0-service \
     system_manifest.xml \
     framework_manifest.xml \
@@ -35,6 +35,7 @@ PRODUCT_PACKAGES += \
     init.environ.rc \
     libc.bootstrap \
     libdl.bootstrap \
+    libdl_android.bootstrap \
     libm.bootstrap \
     linker \
     linker64 \
@@ -50,6 +51,11 @@ PRODUCT_PACKAGES += \
     toybox \
     vndservicemanager \
     vold \
+
+# Ensure boringssl NIAP check won't reboot us
+PRODUCT_PACKAGES += \
+    com.android.conscrypt \
+    boringssl_self_test \
 
 # SELinux packages are added as dependencies of the selinux_policy
 # phony package.
