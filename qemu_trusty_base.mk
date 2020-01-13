@@ -115,3 +115,6 @@ PRODUCT_BOOT_JARS := \
     ims-common \
     android.test.base \
 
+PRODUCT_UPDATABLE_BOOT_JARS := \
+    com.android.conscrypt:conscrypt \
+
