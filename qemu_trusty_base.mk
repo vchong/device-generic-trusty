@@ -21,8 +21,6 @@
 PRODUCT_PACKAGES += \
     com.android.adbd \
     android.hidl.allocator@1.0-service \
-    system_manifest.xml \
-    framework_manifest.xml \
     apexd \
     com.android.art \
     com.android.i18n \
@@ -51,6 +49,13 @@ PRODUCT_PACKAGES += \
     toybox \
     vndservicemanager \
     vold \
+
+# VINTF stuff for system and vendor (no product / odm / system_ext / etc.)
+PRODUCT_PACKAGES += \
+    system_compatibility_matrix.xml \
+    system_manifest.xml \
+    vendor_compatibility_matrix.xml \
+    vendor_manifest.xml \
 
 # Ensure boringssl NIAP check won't reboot us
 PRODUCT_PACKAGES += \
