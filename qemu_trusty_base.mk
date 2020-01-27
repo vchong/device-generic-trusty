@@ -121,4 +121,5 @@ PRODUCT_BOOT_JARS := \
 
 PRODUCT_UPDATABLE_BOOT_JARS := \
     com.android.conscrypt:conscrypt \
+    com.android.tethering:framework-tethering \
 
