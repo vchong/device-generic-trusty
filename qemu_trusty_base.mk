@@ -114,6 +114,7 @@ PRODUCT_BOOT_JARS := \
     apache-xml \
     ext \
     framework-minus-apex \
+    framework-tethering \
     telephony-common \
     voip-common \
     ims-common \
