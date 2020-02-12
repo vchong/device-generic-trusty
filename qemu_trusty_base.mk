@@ -108,13 +108,11 @@ PRODUCT_BOOT_JARS := \
     core-oj \
     core-libart \
     core-icu4j \
-    conscrypt \
     okhttp \
     bouncycastle \
     apache-xml \
     ext \
     framework-minus-apex \
-    framework-tethering \
     telephony-common \
     voip-common \
     ims-common \
