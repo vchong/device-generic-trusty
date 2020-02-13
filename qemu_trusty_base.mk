@@ -105,12 +105,7 @@ PRODUCT_PACKAGES += \
     VtsHalKeymasterV4_0TargetTest \
 
 PRODUCT_BOOT_JARS := \
-    core-oj \
-    core-libart \
-    core-icu4j \
-    okhttp \
-    bouncycastle \
-    apache-xml \
+    $(ART_APEX_JARS) \
     ext \
     framework-minus-apex \
     telephony-common \
