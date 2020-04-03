@@ -20,6 +20,7 @@
 
 PRODUCT_PACKAGES += \
     com.android.adbd \
+    android.hardware.confirmationui@1.0-service.trusty \
     android.hidl.allocator@1.0-service \
     apexd \
     com.android.art \
@@ -100,6 +101,7 @@ $(call inherit-product, system/core/trusty/trusty-storage.mk)
 PRODUCT_PACKAGES += \
     tipc-test \
     trusty-ut-ctrl \
+    VtsHalConfirmationUIV1_0TargetTest \
     VtsHalGatekeeperV1_0TargetTest \
     VtsHalKeymasterV3_0TargetTest \
     VtsHalKeymasterV4_0TargetTest \
