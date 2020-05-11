@@ -110,6 +110,7 @@ PRODUCT_PACKAGES += \
 PRODUCT_BOOT_JARS := \
     $(ART_APEX_JARS) \
     ext \
+    com.android.i18n:core-icu4j \
     framework-minus-apex \
     telephony-common \
     voip-common \
