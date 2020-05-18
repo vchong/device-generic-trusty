@@ -18,6 +18,8 @@
 # it supports a few Android virtual devices. Note that this is _not_ the
 # same as running under the Android emulator.
 
+PRODUCT_SOONG_NAMESPACES += device/generic/goldfish
+
 PRODUCT_PACKAGES += \
     com.android.adbd \
     android.hardware.confirmationui@1.0-service.trusty \
