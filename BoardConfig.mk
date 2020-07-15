@@ -59,3 +59,6 @@ BOARD_BUILD_SYSTEM_ROOT_IMAGE := true
 
 # Specify HALs
 DEVICE_MANIFEST_FILE := device/generic/trusty/manifest.xml
+
+# Enable full VNDK support
+BOARD_VNDK_VERSION := current
