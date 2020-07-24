@@ -110,6 +110,7 @@ PRODUCT_COPY_FILES += \
 # for Trusty
 $(call inherit-product, system/core/trusty/trusty-base.mk)
 $(call inherit-product, system/core/trusty/trusty-storage.mk)
+$(call inherit-product, system/core/trusty/trusty-test.mk)
 
 # Test Utilities
 PRODUCT_PACKAGES += \
