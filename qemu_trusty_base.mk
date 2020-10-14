@@ -26,7 +26,7 @@ PRODUCT_PACKAGES += \
     android.hardware.confirmationui@1.0-service.trusty \
     android.hidl.allocator@1.0-service \
     apexd \
-    com.android.art \
+    com.android.art-autoselect \
     com.android.i18n \
     com.android.runtime \
     dhcpclient \
