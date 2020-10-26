@@ -25,6 +25,7 @@ PRODUCT_PACKAGES += \
     adbd_system_api \
     android.hardware.confirmationui@1.0-service.trusty \
     android.hidl.allocator@1.0-service \
+    android.system.suspend@1.0-service \
     apexd \
     com.android.art-autoselect \
     com.android.i18n \
@@ -35,6 +36,7 @@ PRODUCT_PACKAGES += \
     init_system \
     init_vendor \
     init.environ.rc \
+    libandroid_servers \
     libc.bootstrap \
     libdl.bootstrap \
     libdl_android.bootstrap \
@@ -45,6 +47,7 @@ PRODUCT_PACKAGES += \
     logcat \
     logd \
     logwrapper \
+    mediaserver \
     mdnsd \
     reboot \
     servicemanager \
