@@ -69,6 +69,7 @@ int main(int argc, char* argv[])
     android::trusty::secure_dpu::DPUHandler dpu_handler;
     auto rc = dpu_handler.Init(std::string(device_name));
     if (!rc.ok()) {
+        LOG(ERROR) << rc.error();
         return EXIT_FAILURE;
     }
 

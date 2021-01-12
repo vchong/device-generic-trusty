@@ -16,8 +16,12 @@
 
 #pragma once
 
+#include "SecureDpu.h"
 #include <android-base/result.h>
 #include <string>
+#include <trusty/tipc.h>
+
+#include <BufferAllocator/BufferAllocatorWrapper.h>
 
 namespace android {
 namespace trusty {
@@ -25,14 +29,17 @@ namespace secure_dpu {
 
 class DPUHandler {
   private:
+    static constexpr const int kInvalidFd = -1;
+
     int dpu_handle_;
+    BufferAllocator* buf_allocator_;
 
     android::base::Result<void> HandleStartSecureDisplay();
     android::base::Result<void> HandleStopSecureDisplay();
-    android::base::Result<void> HandleCmd(const void* in_buf,
-                                          const size_t in_size,
-                                          void* out_buf,
-                                          size_t &out_size);
+    android::base::Result<void> AllocateBuffer(size_t req_buffer_len, size_t* allocated_buffer_len,
+                                               int* buf_fd);
+    android::base::Result<void> HandleAllocateBuffer(const secure_dpu_allocate_buffer_req* req);
+    android::base::Result<void> HandleCmd(const void* in_buf, const size_t in_size);
 
   public:
     DPUHandler();
