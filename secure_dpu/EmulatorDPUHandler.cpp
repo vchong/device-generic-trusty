@@ -26,18 +26,29 @@
 #include <unistd.h>
 #include <trusty/tipc.h>
 
+#include <BufferAllocator/BufferAllocatorWrapper.h>
+
+#define countof(arr) (sizeof(arr) / sizeof(arr[0]))
+
 namespace android {
 namespace trusty {
 namespace secure_dpu {
 
-DPUHandler::DPUHandler() {
-}
+DPUHandler::DPUHandler() : buf_allocator_(nullptr) {}
 
 DPUHandler::~DPUHandler() {
     tipc_close(dpu_handle_);
+    if (buf_allocator_) {
+        FreeDmabufHeapBufferAllocator(buf_allocator_);
+    }
 }
 
 android::base::Result<void> DPUHandler::Init(std::string device_name) {
+    buf_allocator_ = CreateDmabufHeapBufferAllocator();
+    if (!buf_allocator_) {
+        return base::Error() << "Failed to create buffer allocator";
+    }
+
     dpu_handle_ = tipc_connect(device_name.c_str(),
                                SECURE_DPU_PORT_NAME);
     if (dpu_handle_ < 0) {
@@ -47,51 +58,105 @@ android::base::Result<void> DPUHandler::Init(std::string device_name) {
 }
 
 android::base::Result<void> DPUHandler::HandleStartSecureDisplay() {
-    LOG(INFO) << "Started Secure Display.";
+    secure_dpu_resp rsp;
+    rsp.cmd = SECURE_DPU_CMD_START_SECURE_DISPLAY | SECURE_DPU_CMD_RESP_BIT;
+    rsp.status = SECURE_DPU_ERROR_OK;
+
+    auto write_len = write(dpu_handle_, &rsp, sizeof(rsp));
+    if (write_len != sizeof(rsp)) {
+        return base::Error() << "Failed to write command";
+    }
     return {};
 }
 
 android::base::Result<void> DPUHandler::HandleStopSecureDisplay() {
-    LOG(INFO) << "Stopped Secure Display.";
+    secure_dpu_resp rsp;
+    rsp.cmd = SECURE_DPU_CMD_STOP_SECURE_DISPLAY | SECURE_DPU_CMD_RESP_BIT;
+    rsp.status = SECURE_DPU_ERROR_OK;
+
+    auto write_len = write(dpu_handle_, &rsp, sizeof(rsp));
+    if (write_len != sizeof(rsp)) {
+        return base::Error() << "Failed to write command";
+    }
     return {};
 }
 
-android::base::Result<void> DPUHandler::HandleCmd(const void* in_buf,
-                                                  const size_t in_size,
-                                                  void* out_buf,
-                                                  size_t &out_size) {
-    if (in_size < sizeof(struct secure_dpu_req)) {
+android::base::Result<void> DPUHandler::AllocateBuffer(size_t req_buffer_len,
+                                                       size_t* allocated_buffer_len, int* buf_fd) {
+    auto dma_buf_fd = DmabufHeapAlloc(buf_allocator_, "system", req_buffer_len, 0);
+    if (dma_buf_fd < 0) {
+        return base::Error() << "Failed to allocate buffer."
+                             << " rc = " << dma_buf_fd << " size = " << req_buffer_len;
+    }
+
+    *buf_fd = dma_buf_fd;
+    *allocated_buffer_len = req_buffer_len;
+    return {};
+}
+
+android::base::Result<void>
+DPUHandler::HandleAllocateBuffer(const secure_dpu_allocate_buffer_req* req) {
+    size_t req_buffer_len = static_cast<size_t>(req->buffer_len);
+    LOG(DEBUG) << "Requested buffer length: " << req_buffer_len;
+
+    secure_dpu_resp rsp;
+    secure_dpu_allocate_buffer_resp msg_rsp;
+
+    iovec iov[] = {
+        {
+            .iov_base = &rsp,
+            .iov_len = sizeof(rsp),
+        },
+        {
+            .iov_base = &msg_rsp,
+            .iov_len = sizeof(msg_rsp),
+        },
+    };
+    trusty_shm shm;
+    size_t allocated_buffer_len = 0;
+    int buf_fd = kInvalidFd;
+    auto result = AllocateBuffer(req_buffer_len, &allocated_buffer_len, &buf_fd);
+    if (result.ok()) {
+        rsp.status = SECURE_DPU_ERROR_OK;
+    } else {
+        LOG(ERROR) << result.error();
+        rsp.status = SECURE_DPU_ERROR_FAIL;
+    }
+
+    rsp.cmd = SECURE_DPU_CMD_ALLOCATE_BUFFER | SECURE_DPU_CMD_RESP_BIT;
+
+    msg_rsp.buffer_len = allocated_buffer_len;
+    shm.fd = buf_fd;
+    shm.transfer = TRUSTY_SHARE;
+
+    auto rc = tipc_send(dpu_handle_, iov, countof(iov), &shm, 1);
+    if (buf_fd != kInvalidFd) close(buf_fd);
+    if (rc != sizeof(rsp) + sizeof(msg_rsp)) {
+        return base::Error() << "Failed to do tipc_send: " << rc;
+    }
+    return {};
+}
+
+android::base::Result<void> DPUHandler::HandleCmd(const void* in_buf, const size_t in_size) {
+    if (in_size < sizeof(secure_dpu_req)) {
         return base::Error() << "Invalid payload";
     }
-    const struct secure_dpu_req* req = reinterpret_cast<const struct secure_dpu_req*>(in_buf);
+    const secure_dpu_req* req = reinterpret_cast<const secure_dpu_req*>(in_buf);
     switch (req->cmd) {
         case SECURE_DPU_CMD_START_SECURE_DISPLAY: {
-            struct secure_dpu_resp* rsp = reinterpret_cast<struct secure_dpu_resp*>(out_buf);
-            rsp->cmd = SECURE_DPU_CMD_START_SECURE_DISPLAY | SECURE_DPU_CMD_RESP_BIT;
-
-            auto result = HandleStartSecureDisplay();
-            if (result.ok()) {
-                rsp->status = SECURE_DPU_ERROR_OK;
-            } else {
-                rsp->status = SECURE_DPU_ERROR_FAIL;
-            }
-
-            out_size = sizeof(struct secure_dpu_resp);
-            break;
+            return HandleStartSecureDisplay();
         }
         case SECURE_DPU_CMD_STOP_SECURE_DISPLAY: {
-            struct secure_dpu_resp* rsp = reinterpret_cast<struct secure_dpu_resp*>(out_buf);
-            rsp->cmd = SECURE_DPU_CMD_STOP_SECURE_DISPLAY | SECURE_DPU_CMD_RESP_BIT;
-
-            auto result = HandleStopSecureDisplay();
-            if (result.ok()) {
-                rsp->status = SECURE_DPU_ERROR_OK;
-            } else {
-                rsp->status = SECURE_DPU_ERROR_FAIL;
+            return HandleStopSecureDisplay();
+        }
+        case SECURE_DPU_CMD_ALLOCATE_BUFFER: {
+            if (in_size != sizeof(secure_dpu_req) + sizeof(secure_dpu_allocate_buffer_req)) {
+                return base::Error() << "Invalid payload";
             }
-
-            out_size = sizeof(struct secure_dpu_resp);
-            break;
+            const secure_dpu_allocate_buffer_req* req_args =
+                reinterpret_cast<const secure_dpu_allocate_buffer_req*>((uint8_t*)in_buf +
+                                                                        sizeof(secure_dpu_req));
+            return HandleAllocateBuffer(req_args);
         }
         default:
             LOG(ERROR) << "Unknown command: " << (uint32_t)req->cmd;
@@ -102,20 +167,15 @@ android::base::Result<void> DPUHandler::HandleCmd(const void* in_buf,
 
 android::base::Result<void> DPUHandler::Handle() {
     uint8_t in_buf[SECURE_DPU_MAX_MSG_SIZE];
-    uint8_t out_buf[SECURE_DPU_MAX_MSG_SIZE];
-    size_t out_size = 0;
 
     auto read_len = read(dpu_handle_, in_buf, sizeof(in_buf));
     if (read_len < 0) {
         return base::Error() << "Failed to read command";
     }
-    auto result = HandleCmd(in_buf, read_len, out_buf, out_size);
+    auto result = HandleCmd(in_buf, read_len);
     if (!result.ok()) {
-        return base::Error() << "Failed to handle command";
-    }
-    auto write_len = write(dpu_handle_, out_buf, out_size);
-    if (write_len != out_size) {
-        return base::Error() << "Failed to write command";
+        return base::Error() << "Failed to handle command. "
+                             << "Reason: " << result.error();
     }
     return {};
 }
