@@ -23,13 +23,18 @@
  *
  * The Secure DPU works as the persistent channel between the non-secure and the
  * secure world. The channel is established during the boot up stage of the
- * non-secure world system.
+ * non-secure world system. In general, the established channel allows the
+ * secure world applications initiate requests or notifications to the non-secure
+ * world.
  *
- * The channel allows the secure world application to issue commands with
- * operations needed to be performed by the non-secure world system. These
- * operations include starting / stopping the secure display mode. The secure
- * world application can only control the display when the system is set as the
- * secure display mode.
+ * For particular devices, the secure world can only perform operations on the
+ * display when in the TUI session if device-specific setup is done by the
+ * non-secure world. Besides, the non-secure world could allocate framebuffer
+ * for the secure world application if the memory is limited in the secure world
+ * on specific devices.
+ *
+ * Currently, supported requests are to start / stop the secure display mode and
+ * to allocate framebuffer.
  *
  * This header file needs to be synced on both the Trusty and the Android
  * codebase.
@@ -48,12 +53,35 @@
  *      Notify the system to start secure display mode
  * @SECURE_DPU_CMD_STOP_SECURE_DISPLAY:
  *      Notify the system to stop secure display mode
+ * @SECURE_DPU_CMD_ALLOCATE_BUFFER:
+ *      Request non-secure world to allocate the buffer
  */
 enum secure_dpu_cmd {
     SECURE_DPU_CMD_RESP_BIT = 1,
     SECURE_DPU_CMD_REQ_SHIFT = 1,
     SECURE_DPU_CMD_START_SECURE_DISPLAY = (1 << SECURE_DPU_CMD_REQ_SHIFT),
     SECURE_DPU_CMD_STOP_SECURE_DISPLAY = (2 << SECURE_DPU_CMD_REQ_SHIFT),
+    SECURE_DPU_CMD_ALLOCATE_BUFFER = (3 << SECURE_DPU_CMD_REQ_SHIFT),
+};
+
+/**
+ * struct secure_dpu_allocate_buffer_req - payload for
+ *                                         %SECURE_DPU_CMD_ALLOCATE_BUFFER
+ *                                         request
+ * @buffer_len: Requested length
+ */
+struct secure_dpu_allocate_buffer_req {
+    uint64_t buffer_len;
+};
+
+/**
+ * struct secure_dpu_allocate_buffer_resp - payload for
+ *                                          %SECURE_DPU_CMD_ALLOCATE_BUFFER
+ *                                          response
+ * @buffer_len: Allocated length
+ */
+struct secure_dpu_allocate_buffer_resp {
+    uint64_t buffer_len;
 };
 
 /**
