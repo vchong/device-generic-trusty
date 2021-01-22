@@ -15,7 +15,7 @@
  */
 
 #include "DPUHandler.h"
-#include "SecureDpu.h"
+#include "trusty/secure_dpu/SecureDpu.h"
 
 #include <android-base/logging.h>
 #include <errno.h>

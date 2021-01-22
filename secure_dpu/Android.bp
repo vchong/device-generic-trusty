@@ -29,6 +29,8 @@ cc_binary {
         "libutils",
     ],
 
+    header_libs: ["secure_dpu_headers"],
+
     init_rc: ["securedpud.rc"],
 
     cflags: [
