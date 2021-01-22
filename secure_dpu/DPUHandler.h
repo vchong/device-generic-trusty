@@ -16,7 +16,7 @@
 
 #pragma once
 
-#include "SecureDpu.h"
+#include "trusty/secure_dpu/SecureDpu.h"
 #include <android-base/result.h>
 #include <string>
 #include <trusty/tipc.h>
