@@ -27,7 +27,7 @@ PRODUCT_PACKAGES += \
     android.hidl.allocator@1.0-service \
     android.system.suspend@1.0-service \
     apexd \
-    com.android.art-autoselect \
+    com.android.art \
     com.android.i18n \
     com.android.runtime \
     dhcpclient \
