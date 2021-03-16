@@ -27,3 +27,9 @@ license {
     ],
     // large-scale-change unable to identify any license_text files
 }
+
+prebuilt_etc {
+    name: "keymaster_soft_wrapped_attestation_keys.xml",
+    vendor: true,
+    src: "keymaster_soft_wrapped_attestation_keys.xml",
+}
