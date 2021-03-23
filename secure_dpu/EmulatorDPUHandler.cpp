@@ -83,7 +83,8 @@ android::base::Result<void> DPUHandler::HandleStopSecureDisplay() {
 
 android::base::Result<void> DPUHandler::AllocateBuffer(size_t req_buffer_len,
                                                        size_t* allocated_buffer_len, int* buf_fd) {
-    auto dma_buf_fd = DmabufHeapAlloc(buf_allocator_, "system", req_buffer_len, 0);
+    auto dma_buf_fd =
+        DmabufHeapAlloc(buf_allocator_, "system", req_buffer_len, 0, 0 /* legacy align */);
     if (dma_buf_fd < 0) {
         return base::Error() << "Failed to allocate buffer."
                              << " rc = " << dma_buf_fd << " size = " << req_buffer_len;
