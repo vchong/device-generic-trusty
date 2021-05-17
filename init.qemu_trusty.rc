@@ -2,13 +2,33 @@ on fs
     mount_all /fstab.qemu_trusty
 
 on early-init
+    loglevel 7
     mount debugfs debugfs /sys/kernel/debug mode=755
 
 on post-fs-data
     setprop vold.post_fs_data_done 1
 # The storage proxy is a vendor binary, and so cannot access /data/ss
     mkdir /data/vendor/ss 700 system system
+    # disable this? to prevent it from continuously resetting due to
+    # missing virtual RPMB resource attached by script in
+    # https://android.googlesource.com/trusty/device/arm/generic-arm64
     enable storageproxyd
+
+    # create for OP-TEE test
+    mkdir /data/vendor/tee 0770 shell shell
+    restorecon_recursive /data/vendor/tee
+
+    start tee-supplicant
+
+service tee-supplicant /vendor/bin/tee-supplicant
+    # use core or early_hal only if fbe, else start too early n /data/vendor/tee not ready!
+    #class core
+    #class early_hal
+    class main
+    user shell
+    group shell inet system drmrpc
+    capabilities SYS_RAWIO BLOCK_SUSPEND NET_ADMIN NET_BIND_SERVICE
+    oneshot
 
 on boot
     chown root system /sys/power/wake_lock

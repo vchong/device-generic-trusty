@@ -116,7 +116,12 @@ PRODUCT_COPY_FILES += \
     device/generic/goldfish/data/etc/config.ini:config.ini \
     device/generic/trusty/advancedFeatures.ini:advancedFeatures.ini \
 
+# for OP-TEE
+$(call inherit-product, device/generic/trusty/optee-packages.mk)
+
 # for Trusty
+# trusty-base.mk is where trusty keymaster gatekeeper components
+# get added to PRODUCT_PACKAGES
 $(call inherit-product, system/core/trusty/trusty-base.mk)
 $(call inherit-product, system/core/trusty/trusty-storage.mk)
 $(call inherit-product, system/core/trusty/trusty-test.mk)
