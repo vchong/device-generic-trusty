@@ -1,0 +1,27 @@
+type hal_keymaster_optee, domain;
+type hal_keymaster_optee_exec, exec_type, vendor_file_type, file_type;
+
+vndbinder_use(hal_keymaster_optee)
+#binder_call(hal_keymaster_optee, opteed)
+#allow hal_keymaster_optee opteed_service:service_manager find;
+
+#hal_attribute_hwservice(hal_keymaster_optee, hal_keymaster_hwservice)
+
+hal_server_domain(hal_keymaster_optee, hal_keymaster)
+init_daemon_domain(hal_keymaster_optee)
+
+# Allow access to keymaster.optee and gatekeeper.optee properties
+#get_prop(hal_keymaster_optee, km_optee_prop)
+#set_prop(hal_keymaster_optee, km_optee_prop)
+#get_prop(hal_keymaster_optee, gk_optee_prop)
+#set_prop(hal_keymaster_optee, gk_optee_prop)
+
+allow hal_keymaster_optee tee_device:chr_file rw_file_perms;
+allow hal_keymaster_optee ion_device:chr_file r_file_perms;
+
+allow hal_keymaster_optee persist_data_file:dir { ioctl open read create_dir_perms };
+allow hal_keymaster_optee persist_data_file:file { open read create_file_perms };
+allow hal_keymaster_optee persist_data_file:chr_file { ioctl read write open ioctl };
+allow hal_keymaster_optee persist_file:dir { ioctl open read create_dir_perms };
+allow hal_keymaster_optee persist_file:file { open read create_file_perms };
+allow hal_keymaster_optee persist_file:chr_file { ioctl read write open ioctl };

@@ -10,3 +10,24 @@
 /vendor/bin/hw/android.hardware.confirmationui@1.0-service.trusty       u:object_r:hal_confirmationui_default_exec:s0
 /vendor/bin/hw/android.hardware.gatekeeper@1.0-service.trusty           u:object_r:hal_gatekeeper_default_exec:s0
 /vendor/bin/hw/android.hardware.keymaster@4.0-service.trusty            u:object_r:hal_keymaster_default_exec:s0
+
+# optee files
+# link to files in vendor partition if there is vendor partition
+# link to files in system partition when no vendor partition
+/(vendor|system/vendor)/bin/tee-supplicant  u:object_r:tee_exec:s0
+/(vendor|system/vendor)/bin/xtest  u:object_r:tee_exec:s0
+/(vendor|system/vendor)/bin/hw/wait_for_keymaster_optee u:object_r:wait_for_keymaster_optee_exec:s0
+/dev/teepriv[0-9]*     u:object_r:tee_device:s0
+/dev/tee[0-9]*         u:object_r:tee_device:s0
+/data/vendor/tee(/.*)? u:object_r:tee_data_file:s0
+/mnt/vendor/persist(/.*)?         u:object_r:persist_file:s0
+/mnt/vendor/persist/tee(/.*)?     u:object_r:persist_data_file:s0
+#/mnt/vendor/persist(/.*)?         u:object_r:vendor_data_file:s0
+#/mnt/vendor/persist/tee(/.*)?     u:object_r:tee_data_file:s0
+
+# mmc rpmb
+/dev/block/mmcblk[0-9]rpmb     u:object_r:mmc_rpmb_block_device:s0
+/dev/mmcblk[0-9]rpmb           u:object_r:mmc_rpmb_char_device:s0
+
+/(vendor|system/vendor)/bin/hw/android\.hardware\.gatekeeper@1\.0-service\.optee     u:object_r:hal_gatekeeper_optee_exec:s0
+/(vendor|system/vendor)/bin/hw/android\.hardware\.keymaster@3\.0-service\.optee      u:object_r:hal_keymaster_optee_exec:s0

@@ -5,3 +5,9 @@
 
 /dev/tee0        0660   shell     shell
 /dev/teepriv0    0660   shell     shell
+/dev/block/mmcblk0rpmb 0660 shell  shell
+/dev/block/mmcblk1rpmb 0660 shell  shell
+/dev/mmcblk0rpmb 0660 shell  shell
+/dev/mmcblk1rpmb 0660 shell  shell
+/dev/block/mmcblk0 0660 shell  shell
+/dev/block/mmcblk1 0660 shell  shell

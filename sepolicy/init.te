@@ -1,0 +1,29 @@
+# init.hikey.usb.rc writes to /config/* to set up USB
+allow init configfs:dir create_dir_perms;
+allow init configfs:file write;
+allow init configfs:lnk_file { create unlink };
+# for symlink /sdcard /mnt/sdcard
+allow init tmpfs:lnk_file create;
+allow init configfs:lnk_file create;
+
+dontaudit init kernel:system module_request;
+
+allow init mnt_vendor_file:dir mounton;
+allow init vendor_file:file { execute };
+allow init su:process { transition };
+
+allow init device:blk_file { create setattr getattr unlink };
+allow init boot_block_device:lnk_file relabelto;
+allow toolbox property_socket:sock_file write;
+allow init hwservicemanager:binder { call transfer };
+# not allowed in master
+#allow init tee_device:chr_file { read write ioctl };
+
+# rpmb
+allow init block_device:dir { search };
+allow init mmc_block_device:blk_file { open read write ioctl rw_file_perms };
+allow init mmc_rpmb_block_device:blk_file { open read write ioctl rw_file_perms };
+allow init mmc_rpmb_char_device:blk_file { open read write ioctl rw_file_perms };
+allow init mmc_block_device:chr_file { open read write ioctl rw_file_perms };
+allow init mmc_rpmb_block_device:chr_file { open read write ioctl rw_file_perms };
+allow init mmc_rpmb_char_device:chr_file { open read write ioctl rw_file_perms };
