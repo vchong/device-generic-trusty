@@ -1,0 +1,12 @@
+recovery_only(`
+allow shell tmpfs:file r_file_perms;
+allow shell sysfs:file r_file_perms;
+')
+
+allow shell rootfs:file { getattr read open };
+allow shell vendor_file:file { execute getattr open read execute_no_trans map };
+# NOT allowed
+#allow shell mnt_vendor_file:dir { getattr open read search };
+#allow shell mnt_vendor_file:dir { getattr open read write search };
+
+allow rootfs labeledfs:filesystem associate;

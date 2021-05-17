@@ -1,0 +1,5 @@
+# mmc rpmb partition block device
+type mmc_rpmb_char_device, dev_type;
+type mmc_rpmb_block_device, dev_type;
+type mmc_block_device, dev_type;
+type vendordata_block_device, dev_type;

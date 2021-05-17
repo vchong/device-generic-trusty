@@ -1,0 +1,24 @@
+allow vendor_init tee_data_file:file { create write open getattr setattr unlink read };
+allow vendor_init tee_data_file:dir { write add_name remove_name rename search open getattr setattr };
+allow vendor_init tee_data_file:chr_file { read write open ioctl };
+allow vendor_init persist_data_file:file { create write open getattr setattr unlink read };
+allow vendor_init persist_data_file:dir { write add_name remove_name rename search open getattr setattr };
+allow vendor_init persist_data_file:chr_file { read write open ioctl };
+
+# rpmb operations
+allow vendor_init block_device:dir { search };
+allow vendor_init mmc_block_device:blk_file { open read write ioctl rw_file_perms };
+allow vendor_init mmc_rpmb_block_device:blk_file { open read write ioctl rw_file_perms };
+allow vendor_init mmc_rpmb_char_device:blk_file { open read write ioctl rw_file_perms };
+allow vendor_init mmc_block_device:chr_file { open read write ioctl rw_file_perms };
+allow vendor_init mmc_rpmb_block_device:chr_file { open read write ioctl rw_file_perms };
+allow vendor_init mmc_rpmb_char_device:chr_file { open read write ioctl rw_file_perms };
+
+allow vendor_init vendordata_block_device:dir { search };
+allow vendor_init vendordata_block_device:blk_file { open read write ioctl rw_file_perms };
+allow vendor_init vendordata_block_device:chr_file { open read write ioctl rw_file_perms };
+allow fsck vendordata_block_device:blk_file { getattr read open write ioctl };
+allow init vendordata_block_device:blk_file { relabelfrom relabelto create setattr };
+
+allow vendor_init vendor_file:system { module_load };
+allow vendor_init self:capability { sys_module };
