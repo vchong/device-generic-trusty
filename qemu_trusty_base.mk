@@ -50,6 +50,7 @@ PRODUCT_PACKAGES += \
     logwrapper \
     mediaserver \
     mdnsd \
+    odsign \
     reboot \
     securedpud \
     servicemanager \
