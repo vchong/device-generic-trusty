@@ -18,6 +18,8 @@
 # it supports a few Android virtual devices. Note that this is _not_ the
 # same as running under the Android emulator.
 
+$(call inherit-product, $(SRC_TARGET_DIR)/product/updatable_apex.mk)
+
 PRODUCT_SOONG_NAMESPACES += device/generic/goldfish
 
 PRODUCT_PACKAGES += \
