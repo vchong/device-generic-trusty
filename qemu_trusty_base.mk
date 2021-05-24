@@ -55,7 +55,6 @@ PRODUCT_PACKAGES += \
     mdnsd \
     odsign \
     reboot \
-    securedpud \
     servicemanager \
     sh \
     su \
