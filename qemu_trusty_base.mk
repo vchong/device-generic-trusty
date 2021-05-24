@@ -51,7 +51,6 @@ PRODUCT_PACKAGES += \
     mediaserver \
     mdnsd \
     reboot \
-    securedpud \
     servicemanager \
     sh \
     su \

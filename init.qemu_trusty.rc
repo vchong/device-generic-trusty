@@ -9,10 +9,11 @@ on post-fs-data
     setprop vold.post_fs_data_done 1
 # The storage proxy is a vendor binary, and so cannot access /data/ss
     mkdir /data/vendor/ss 700 system system
-    # disable this? to prevent it from continuously resetting due to
+    # disable this to prevent it from continuously resetting due to
     # missing virtual RPMB resource attached by script in
     # https://android.googlesource.com/trusty/device/arm/generic-arm64
-    enable storageproxyd
+    # since trusty is NOT running
+    #enable storageproxyd
 
     # create for OP-TEE test
     mkdir /data/vendor/tee 0770 shell shell
